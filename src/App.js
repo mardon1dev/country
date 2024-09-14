@@ -187,7 +187,7 @@ function App() {
         <form onSubmit={handleAddCountry} className={`min-w-[400px] flex items-start justify-between gap-6 h-full`}>
             <label>
               <input onChange={handleFlag} type="file" className='hidden' />
-              <img className='rounded h-[300px] object-cover' src={flag} alt='An image' width={"300px"} height={"300px"} />
+              <img className='rounded h-[300px] object-cover' src={flag} alt='A flag of a country' width={"300px"} height={"300px"} />
             </label>
             <div className='flex flex-col justify-between h-[300px]'>
               <div className='flex flex-col gap-3'>
