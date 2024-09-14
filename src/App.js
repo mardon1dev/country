@@ -150,11 +150,11 @@ function App() {
     e.preventDefault()
     setLoading(!loading)
     const id = e.target.value
-    if (id == 0) {
+    if (id === 0) {
         setCountries(allCountries)
     }
     else{
-        const filteredCountries = allCountries.filter(country => country.id == id)
+        const filteredCountries = allCountries.filter(country => country.id === id)
         setCountries(filteredCountries)
     }
     setTimeout(() => setLoading(false), 1000);
