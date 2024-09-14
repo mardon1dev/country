@@ -184,7 +184,7 @@ function App() {
         </div>
       </main>
       <Modal modal={modal} setModal={setModal} handleModal={handleModal} toggleBackground={toggleBackground}>
-        <form onSubmit={handleAddCountry} className={`min-w-[400px] flex items-start justify-between gap-6 h-full`}>
+        <form onSubmit={handleAddCountry} className={`min-w-[400px] flex items-start justify-between gap-6 h-full`} autoComplete='off'>
             <label>
               <input onChange={handleFlag} type="file" className='hidden' />
               <img className='rounded h-[300px] object-cover' src={flag} alt='A flag of a country' width={"300px"} height={"300px"} />
