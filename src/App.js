@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import CountryCard from './Components/CountryCard/CountryCard';
 import Header from './Components/Header/Header';
@@ -6,6 +6,7 @@ import Search from './Components/Search/Search';
 import Modal from './Components/Modal/Modal';
 import UploadImage from "./assets/images/upload.webp"
 import Loading from './Components/Loading/Loading';
+import Carousel from './Components/Carousel/Carousel';
 function App() {
   const allCountries = [
     {
@@ -108,6 +109,8 @@ function App() {
   const [countries, setCountries] = useState(allCountries)
   const [modal, setModal] = useState(false);
 
+  const [updatedCountryId, setUpdatedCountryId] = useState("");
+
   const [name, setName] = useState("");
   const [capital, setCapital] = useState("");
   const [population, setPopulation] = useState("");
@@ -117,6 +120,10 @@ function App() {
 
 
   function handleModal(){
+    setName("");
+    setCapital("");
+    setPopulation("");
+    setFlag(UploadImage);
     setModal(!modal)
   }
 
@@ -124,27 +131,60 @@ function App() {
     setFlag(URL.createObjectURL(e.target.files[0]))
   }
 
-  function handleAddCountry(e){
-    e.preventDefault();
-
-    const newCountry = {
-      id: allCountries.length ? allCountries[allCountries.length - 1] + 1 : 1,
-      name,
-      capital,
-      population,
-      flag,
-      isLiked: false,
-      isBasket: false
+  useEffect(() => {
+    if (updatedCountryId) {
+      const country = countries.find((country) => country.id === updatedCountryId);
+      if (country) {
+        setName(country.name);
+        setCapital(country.capital);
+        setPopulation(country.population);
+        setFlag(country.flag);
+      }
     }
-    setCountries([newCountry, ...countries])
+  }, [updatedCountryId, countries]);
+
+  function handleAddCountry(e) {
+    e.preventDefault();
+    
+    if (updatedCountryId) {
+      const updatedCountries = countries.map((country) => {
+        if (country.id === updatedCountryId) {
+          return {
+            ...country,
+            name,
+            capital,
+            population,
+            flag,
+          };
+        }
+        return country;
+      });
+  
+      setCountries(updatedCountries);
+      setUpdatedCountryId("");
+    } else {
+      const newCountry = {
+        id: (countries.length ? parseInt(countries[countries.length - 1].id) + 1 : 1).toString(),
+        name,
+        capital,
+        population,
+        flag,
+        isLiked: false,
+        isBasket: false,
+      };
+      
+      setCountries([newCountry, ...countries]);
+    }
+  
     setName("");
     setCapital("");
     setPopulation("");
     setFlag(UploadImage);
     handleModal();
-    setLoading(!loading);
+    setLoading(true);
     setTimeout(() => setLoading(false), 1000);
   }
+  
 
 
   return (
@@ -152,13 +192,16 @@ function App() {
       <Header handleModal={handleModal} toggleBackground={toggleBackground} handleBackground={handleBackground} />
       <main className='pt-[120px] pb-[20px]'>
         <Search setCountries={setCountries} allCountries={allCountries} setLoading={setLoading} toggleBackground={toggleBackground}/>
+        <div className='max-w-[1280px] mx-auto p-10 px-4 flex'>
+          <Carousel allCountries={allCountries} />
+        </div>
         <div className='max-w-[1280px] mx-auto pt-[48px] px-4'>
           <div className='grid grid-cols-12 lg:gap-[74px] sm:gap-[37px] gap-y-[74px] w-full'>
             {
               loading ? <div className='col-span-12 flex items-center justify-center py-10'><Loading toggleBackground={toggleBackground} /></div> : 
               countries.length > 0 ? (
                 countries.map((country, index) => (
-                  <CountryCard country={country} key={index} countries={countries} setCountries={setCountries} loading={loading} setLoading={setLoading} toggleBackground={toggleBackground} />
+                  <CountryCard country={country} key={index} allCountries={allCountries} setCountries={setCountries} loading={loading} setLoading={setLoading} toggleBackground={toggleBackground} setUpdatedCountryId={setUpdatedCountryId} handleModal={handleModal} />
                 ))
               ) : (
                 <div className='text-center w-full col-span-12'>

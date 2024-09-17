@@ -11,8 +11,8 @@ function Header({handleModal, toggleBackground, handleBackground}) {
             <div className='flex items-center gap-3'>
               {
                 toggleBackground ? 
-                <button onClick={handleBackground} className='w-[40px] h-[40px] flex items-center justify-center rounded-full'><LightMode className="w-[50%]"/></button> :
-                <button onClick={handleBackground} className='w-[40px] h-[40px] flex items-center justify-center rounded-full'><DarkMode  className="w-[50%]"/></button> 
+                <button onClick={handleBackground} className='w-[40px] h-[40px] flex items-center justify-center rounded-full overflow-hidden'><LightMode className="w-[50%]"/></button> :
+                <button onClick={handleBackground} className='w-[40px] h-[40px] flex items-center justify-center rounded-full overflow-hidden'><DarkMode  className="w-[50%]"/></button> 
               }
               <button onClick={handleModal} className='bg-[#000000]/10 px-4 py-2 rounded hover:bg-[#000000]/30'>Add</button>
             </div>

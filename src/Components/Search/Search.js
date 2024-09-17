@@ -29,7 +29,6 @@ function Search({ setCountries, allCountries, setLoading, toggleBackground }) {
     e.preventDefault();
     setLoading(true);
     const id = e.target.value;
-    console.log(id);
     if (id === "0") {
       setCountries(allCountries);
     } else {
