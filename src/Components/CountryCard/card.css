@@ -38,6 +38,7 @@
 }
 
 .card:hover img {
+    /* transform: rotateX(0deg); */
     scale: 0;
 }
 
